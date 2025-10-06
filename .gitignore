@@ -1,0 +1,32 @@
+# Dependências
+node_modules/
+dashboard/node_modules/
+
+# Variáveis de ambiente
+.env
+
+# Dados locais
+data/financas.xlsx
+data/financas.backup.xlsx
+
+# Sessão do WhatsApp
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build do dashboard
+dashboard/dist/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~

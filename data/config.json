@@ -1,0 +1,30 @@
+{
+  "profile": {
+    "name": "Usuário",
+    "monthlyIncome": 5000,
+    "whatsappGroupName": "Finance Bot"
+  },
+  "categories": [
+    "alimentação",
+    "transporte",
+    "lazer",
+    "saúde",
+    "moradia",
+    "educação",
+    "vestuário",
+    "outros"
+  ],
+  "goals": {
+    "totalMonthly": 3000,
+    "byCategory": {
+      "alimentação": 800,
+      "transporte": 400,
+      "lazer": 300,
+      "saúde": 200,
+      "moradia": 1000,
+      "educação": 200,
+      "vestuário": 150,
+      "outros": 150
+    }
+  }
+}
