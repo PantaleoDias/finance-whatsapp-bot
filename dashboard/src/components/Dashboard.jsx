@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import Charts from './Charts'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Dashboard() {
   const [data, setData] = useState(null)
@@ -10,7 +11,7 @@ export default function Dashboard() {
   const fetchData = async () => {
     try {
       setLoading(true)
-      const response = await axios.get('http://localhost:3000/api/analytics')
+      const response = await axios.get(API_ENDPOINTS.analytics)
       setData(response.data.data)
       setError(null)
     } catch (err) {

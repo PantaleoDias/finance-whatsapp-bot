@@ -3,6 +3,13 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+// Validar variável de ambiente obrigatória
+if (!process.env.ANTHROPIC_API_KEY) {
+  console.error('ANTHROPIC_API_KEY environment variable is not set');
+  console.error('Please create a .env file with ANTHROPIC_API_KEY=your_api_key');
+  process.exit(1);
+}
+
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 });
@@ -67,8 +74,8 @@ Se não conseguir interpretar, retorne: null`;
     // Tentar fazer parse do JSON
     const parsed = JSON.parse(content);
 
-    // Validar resultado
-    if (!parsed.valor || typeof parsed.valor !== 'number') {
+    // Validar resultado - permite valor 0, mas rejeita negativos
+    if (typeof parsed.valor !== 'number' || parsed.valor < 0) {
       return null;
     }
 
@@ -88,7 +95,8 @@ Se não conseguir interpretar, retorne: null`;
 export function parseExpenseMessageFallback(message) {
   try {
     // Procurar por números no formato: 50, 50.00, 50,00
-    const valueMatch = message.match(/(\d+)([.,](\d{2}))?/);
+    // Usa word boundary para evitar capturar anos (2024) incorretamente
+    const valueMatch = message.match(/\b(\d+)(?:[.,](\d{1,2}))?\b/);
 
     if (!valueMatch) {
       return null;

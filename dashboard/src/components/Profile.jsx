@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Profile() {
   const [config, setConfig] = useState(null)
@@ -16,7 +17,7 @@ export default function Profile() {
 
   const fetchConfig = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/config')
+      const response = await axios.get(API_ENDPOINTS.config)
       setConfig(response.data.data)
       setProfile(response.data.data.profile)
       setCategories(response.data.data.categories)
@@ -72,7 +73,7 @@ export default function Profile() {
         goals: updatedGoals
       }
 
-      await axios.post('http://localhost:3000/api/config', updatedConfig)
+      await axios.post(API_ENDPOINTS.config, updatedConfig)
       setConfig(updatedConfig)
 
       setMessage({ type: 'success', text: 'Perfil atualizado com sucesso!' })

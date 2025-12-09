@@ -11,7 +11,8 @@ const BACKUP_PATH = path.join(__dirname, '../../data/financas.backup.xlsx');
 
 // Função para criar o arquivo Excel inicial melhorado
 function createExcelFile() {
-  const workbook = xlsx.utils.book_new();
+  try {
+    const workbook = xlsx.utils.book_new();
 
   // ===== ABA 1: GASTOS =====
   const gastosHeaders = [
@@ -142,10 +143,14 @@ function createExcelFile() {
 
   xlsx.utils.book_append_sheet(workbook, metasSheet, 'Metas');
 
-  // Salvar arquivo
-  xlsx.writeFile(workbook, EXCEL_PATH);
-  console.log('✅ Planilha Excel melhorada criada com sucesso!');
-  console.log('📊 Abas criadas: Gastos | Receitas | Resumo Mensal | Metas');
+    // Salvar arquivo
+    xlsx.writeFile(workbook, EXCEL_PATH);
+    console.log('Planilha Excel melhorada criada com sucesso!');
+    console.log('Abas criadas: Gastos | Receitas | Resumo Mensal | Metas');
+  } catch (error) {
+    console.error('Erro ao criar arquivo Excel:', error);
+    throw error;
+  }
 }
 
 // Função para garantir que o arquivo existe

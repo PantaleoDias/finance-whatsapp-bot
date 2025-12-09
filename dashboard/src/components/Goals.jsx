@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { API_ENDPOINTS } from '../config/api'
 
 export default function Goals() {
   const [config, setConfig] = useState(null)
@@ -14,7 +15,7 @@ export default function Goals() {
 
   const fetchConfig = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/config')
+      const response = await axios.get(API_ENDPOINTS.config)
       setConfig(response.data.data)
       setGoals(response.data.data.goals)
       setLoading(false)
@@ -51,7 +52,7 @@ export default function Goals() {
         goals
       }
 
-      await axios.post('http://localhost:3000/api/config', updatedConfig)
+      await axios.post(API_ENDPOINTS.config, updatedConfig)
 
       setMessage({ type: 'success', text: 'Metas atualizadas com sucesso!' })
       setTimeout(() => setMessage(null), 3000)
@@ -113,6 +114,7 @@ export default function Goals() {
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
               placeholder="0.00"
               step="0.01"
+              min="0"
             />
           </div>
         </div>
@@ -134,6 +136,7 @@ export default function Goals() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                 placeholder="0.00"
                 step="0.01"
+                min="0"
               />
             </div>
           ))}
