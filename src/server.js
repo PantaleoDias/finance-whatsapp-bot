@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import apiRoutes from './api/routes.js';
 import { initWhatsAppBot } from './bot/whatsapp.js';
+import { initializeSchedulers } from './services/scheduler.js';
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -62,6 +63,9 @@ app.listen(PORT, () => {
   // Inicializar bot do WhatsApp
   console.log('\n🤖 Iniciando bot do WhatsApp...\n');
   initWhatsAppBot();
+
+  // Inicializar schedulers (alertas e relatórios automáticos)
+  initializeSchedulers();
 });
 
 // Tratamento de encerramento

@@ -5,6 +5,14 @@ import {
   getExpensesByCategory as getExpensesByCat
 } from '../services/excel.js';
 import { getDashboardData } from '../services/analytics.js';
+import {
+  generateIntelligentAnalysis,
+  answerFinancialQuestion,
+  generateExpenseForecast,
+  generatePersonalizedTips,
+  generateWeeklyReport,
+  checkAlerts
+} from '../services/ai-advanced.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -138,6 +146,100 @@ router.get('/health', (req, res) => {
     message: 'API está funcionando',
     timestamp: new Date().toISOString()
   });
+});
+
+// ============================================
+// ROTAS DE IA AVANÇADA
+// ============================================
+
+// GET /api/ai/analysis - análise inteligente completa
+router.get('/ai/analysis', async (req, res) => {
+  try {
+    const analysis = await generateIntelligentAnalysis();
+    res.json(analysis);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// POST /api/ai/question - responder pergunta em linguagem natural
+router.post('/ai/question', async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question || typeof question !== 'string') {
+      return res.status(400).json({
+        success: false,
+        error: 'Campo "question" é obrigatório e deve ser uma string'
+      });
+    }
+
+    const response = await answerFinancialQuestion(question);
+    res.json(response);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// GET /api/ai/forecast - previsão de gastos
+router.get('/ai/forecast', async (req, res) => {
+  try {
+    const forecast = await generateExpenseForecast();
+    res.json(forecast);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// GET /api/ai/tips - dicas personalizadas
+router.get('/ai/tips', async (req, res) => {
+  try {
+    const tips = await generatePersonalizedTips();
+    res.json(tips);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// GET /api/ai/weekly-report - relatório semanal
+router.get('/ai/weekly-report', async (req, res) => {
+  try {
+    const report = await generateWeeklyReport();
+    res.json(report);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// GET /api/alerts - verificar alertas ativos
+router.get('/alerts', (req, res) => {
+  try {
+    const alerts = checkAlerts();
+    res.json({
+      success: true,
+      ...alerts
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
 });
 
 export default router;

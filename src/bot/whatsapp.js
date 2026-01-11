@@ -4,6 +4,14 @@ import qrcode from 'qrcode-terminal';
 import { interpretExpenseMessage } from '../services/ai.js';
 import { addExpense, getCurrentMonthExpenses } from '../services/excel.js';
 import { getTotalMonthExpenses, getExpensesByCategory } from '../services/analytics.js';
+import {
+  generateIntelligentAnalysis,
+  answerFinancialQuestion,
+  generateExpenseForecast,
+  generatePersonalizedTips,
+  generateWeeklyReport,
+  checkAlerts
+} from '../services/ai-advanced.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -169,16 +177,119 @@ async function handleCommand(message, command) {
       return;
     }
 
+    // Comando: /analise
+    if (lowerCommand === '/analise' || lowerCommand === '/análise') {
+      await message.reply('🤖 Gerando análise inteligente... aguarde um momento...');
+
+      const analysis = await generateIntelligentAnalysis();
+
+      if (analysis.success) {
+        await message.reply(analysis.analysis);
+      } else {
+        await message.reply(`❌ ${analysis.message || 'Erro ao gerar análise.'}`);
+      }
+      return;
+    }
+
+    // Comando: /previsao
+    if (lowerCommand === '/previsao' || lowerCommand === '/previsão') {
+      await message.reply('🔮 Gerando previsão... aguarde um momento...');
+
+      const forecast = await generateExpenseForecast();
+
+      if (forecast.success) {
+        await message.reply(forecast.forecast);
+      } else {
+        await message.reply(`❌ ${forecast.message || 'Erro ao gerar previsão.'}`);
+      }
+      return;
+    }
+
+    // Comando: /dicas
+    if (lowerCommand === '/dicas') {
+      await message.reply('💡 Gerando dicas personalizadas... aguarde um momento...');
+
+      const tips = await generatePersonalizedTips();
+
+      if (tips.success) {
+        await message.reply(tips.tips);
+      } else {
+        await message.reply('❌ Erro ao gerar dicas.');
+      }
+      return;
+    }
+
+    // Comando: /relatorio
+    if (lowerCommand === '/relatorio' || lowerCommand === '/relatório') {
+      await message.reply('📊 Gerando relatório semanal...');
+
+      const report = await generateWeeklyReport();
+
+      if (report.success) {
+        await message.reply(report.report);
+      } else {
+        await message.reply(`❌ ${report.message || 'Erro ao gerar relatório.'}`);
+      }
+      return;
+    }
+
+    // Comando: /alertas
+    if (lowerCommand === '/alertas') {
+      const alertsData = checkAlerts();
+
+      if (!alertsData.hasAlerts) {
+        await message.reply('✅ *Tudo certo!*\n\nNenhum alerta no momento. Continue assim! 🎉');
+        return;
+      }
+
+      let alertMessage = `🔔 *Alertas Ativos (${alertsData.count})*\n\n`;
+
+      alertsData.alerts.forEach((alert, index) => {
+        alertMessage += `${index + 1}. ${alert.title}\n${alert.message}\n\n`;
+      });
+
+      await message.reply(alertMessage);
+      return;
+    }
+
+    // Comando: /perguntar [pergunta]
+    if (lowerCommand.startsWith('/perguntar ')) {
+      const question = command.substring(11).trim();
+
+      if (!question) {
+        await message.reply('❓ Por favor, faça uma pergunta.\n\nExemplo: /perguntar quanto gastei com alimentação essa semana?');
+        return;
+      }
+
+      await message.reply('🤔 Analisando sua pergunta...');
+
+      const response = await answerFinancialQuestion(question);
+
+      if (response.success) {
+        await message.reply(response.answer);
+      } else {
+        await message.reply('❌ Não consegui responder sua pergunta. Tente reformular.');
+      }
+      return;
+    }
+
     // Comando: /ajuda
     if (lowerCommand === '/ajuda' || lowerCommand === '/help') {
       const helpMessage = `🤖 *Comandos disponíveis*\n\n` +
-        `📝 Para registrar gastos, envie mensagens como:\n` +
+        `📝 *Registrar gastos:*\n` +
         `▪️ "gastei 50 no almoço"\n` +
         `▪️ "200 reais mercado"\n` +
         `▪️ "uber 25"\n\n` +
-        `💬 *Comandos especiais:*\n` +
-        `▪️ /saldo - Mostra total gasto no mês\n` +
-        `▪️ /categorias - Lista gastos por categoria\n` +
+        `💬 *Comandos básicos:*\n` +
+        `▪️ /saldo - Total gasto no mês\n` +
+        `▪️ /categorias - Gastos por categoria\n` +
+        `▪️ /alertas - Verificar alertas\n\n` +
+        `🤖 *Comandos inteligentes (IA):*\n` +
+        `▪️ /analise - Análise completa com IA\n` +
+        `▪️ /previsao - Previsão para fim do mês\n` +
+        `▪️ /dicas - Dicas personalizadas\n` +
+        `▪️ /relatorio - Relatório semanal\n` +
+        `▪️ /perguntar [pergunta] - Pergunte qualquer coisa\n\n` +
         `▪️ /ajuda - Mostra esta mensagem`;
 
       await message.reply(helpMessage);

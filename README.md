@@ -1,6 +1,6 @@
-# 💰 Finance WhatsApp Bot
+# 💰 Finance WhatsApp Bot - Agente de IA Inteligente
 
-Sistema automatizado que conecta um bot de WhatsApp a uma planilha Excel local para registrar gastos pessoais via mensagens de texto, com dashboard web para visualizar gráficos e configurar metas.
+Sistema automatizado com **Agente de IA avançado** que conecta um bot de WhatsApp a uma planilha Excel local para registrar e analisar gastos pessoais via mensagens de texto, com análises inteligentes, alertas proativos, previsões e dashboard web interativo.
 
 ## 📋 Funcionalidades
 
@@ -9,7 +9,17 @@ Sistema automatizado que conecta um bot de WhatsApp a uma planilha Excel local p
 - ✅ Monitora grupo específico para registrar gastos
 - ✅ Interpreta mensagens em linguagem natural usando Claude AI
 - ✅ Registra automaticamente gastos em planilha Excel
-- ✅ Comandos: `/saldo`, `/categorias`, `/ajuda`
+- ✅ Comandos básicos: `/saldo`, `/categorias`, `/ajuda`, `/alertas`
+
+### 🤖 Agente de IA Inteligente (NOVO!)
+- 🧠 **Análise Profunda**: Análise completa com identificação de padrões e recomendações (`/analise`)
+- 🔮 **Previsões**: Projeções inteligentes de gastos para fim do mês (`/previsao`)
+- 💡 **Dicas Personalizadas**: Recomendações práticas baseadas em seu comportamento (`/dicas`)
+- 📊 **Relatórios Semanais**: Resumos automáticos toda segunda-feira (`/relatorio`)
+- 💬 **Conversação Natural**: Faça qualquer pergunta sobre suas finanças (`/perguntar`)
+- 🔔 **Alertas Proativos**: Notificações automáticas quando se aproxima das metas
+- 🌙 **Resumo Diário**: Relatório automático todo dia às 20h
+- ⚡ **Monitoramento Contínuo**: Verificação de alertas a cada 6 horas
 
 ### Dashboard Web
 - 📊 Visualização de gastos com gráficos interativos
@@ -136,10 +146,29 @@ O bot automaticamente:
 
 ### 5. Usar comandos
 
+**Comandos básicos:**
 ```
 /saldo - Mostra total gasto no mês
 /categorias - Lista gastos por categoria
-/ajuda - Mostra comandos disponíveis
+/alertas - Verifica alertas ativos
+/ajuda - Mostra todos os comandos
+```
+
+**Comandos inteligentes com IA:**
+```
+/analise - Análise completa dos seus gastos com insights profundos
+/previsao - Previsão de gastos para fim do mês
+/dicas - Dicas personalizadas para economizar
+/relatorio - Relatório dos últimos 7 dias
+/perguntar [sua pergunta] - Faça qualquer pergunta sobre suas finanças
+```
+
+**Exemplos de perguntas:**
+```
+/perguntar quanto gastei com alimentação essa semana?
+/perguntar qual categoria está mais cara?
+/perguntar vou conseguir bater minha meta esse mês?
+/perguntar onde posso economizar mais?
 ```
 
 ## 📊 Dashboard
@@ -199,6 +228,7 @@ finance-whatsapp-bot/
 
 ## 🔧 API Endpoints
 
+**Endpoints básicos:**
 - `GET /api/health` - Verificação de saúde da API
 - `GET /api/expenses` - Retorna todos os gastos
 - `GET /api/expenses/month` - Gastos do mês atual
@@ -206,6 +236,14 @@ finance-whatsapp-bot/
 - `GET /api/analytics` - Estatísticas e insights completos
 - `GET /api/config` - Configurações de metas e perfil
 - `POST /api/config` - Atualiza metas e perfil
+
+**Endpoints de IA avançada (NOVO!):**
+- `GET /api/ai/analysis` - Análise inteligente completa
+- `POST /api/ai/question` - Responder pergunta em linguagem natural
+- `GET /api/ai/forecast` - Previsão de gastos
+- `GET /api/ai/tips` - Dicas personalizadas
+- `GET /api/ai/weekly-report` - Relatório semanal
+- `GET /api/alerts` - Verificar alertas ativos
 
 ## 💡 Exemplos de Uso
 
@@ -261,6 +299,30 @@ finance-whatsapp-bot/
 - **Backup automático**: antes de cada escrita, um backup é criado
 - O bot usa **Claude AI** para interpretar mensagens, mas possui **fallback** com regex caso a API falhe
 - O dashboard atualiza automaticamente a cada 30 segundos
+
+### 🤖 Funcionalidades Automáticas do Agente de IA
+
+O agente de IA funciona de forma **proativa**, sem você precisar solicitar:
+
+1. **Alertas Automáticos (a cada 6 horas):**
+   - Verifica se você está próximo ou ultrapassou suas metas
+   - Envia notificações automáticas no grupo do WhatsApp
+   - Prioriza alertas críticos
+
+2. **Resumo Diário (todo dia às 20h):**
+   - Envia automaticamente um resumo dos gastos do dia
+   - Mostra total gasto, número de gastos e categoria principal
+   - Inclui estatísticas do mês até o momento
+
+3. **Relatório Semanal (toda segunda-feira às 9h):**
+   - Resumo completo da semana anterior
+   - Destaques positivos e pontos de atenção
+   - Recomendações práticas para a próxima semana
+
+4. **Análises Contextuais:**
+   - A IA analisa padrões de comportamento
+   - Identifica tendências e anomalias
+   - Oferece recomendações personalizadas baseadas em seu perfil
 
 ## 🔐 Segurança
 
